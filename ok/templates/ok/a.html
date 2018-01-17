@@ -1,0 +1,65 @@
+{% load static from staticfiles %}
+{% csrf_token %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<link rel="stylesheet" type="=text/css" href="{% static 'ok/style.css' %}"/>
+
+<head>
+  <title>ShopCop</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <style>
+body  {
+
+    background: #cccccc url("http://i68.tinypic.com/2pr8z0w.jpg") center;
+}
+
+table {
+    width:100%;
+	border-collapse: collapse;
+}
+table, th, td {
+
+    border: 1px solid white;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+
+table#t01 th {
+    background-color: #DCDCDC;
+    color: black;
+}
+</style>
+
+<body>
+<img src="{% static 'image/d.png' %}" alt="Smiley face" width="100" height="200">
+
+<script>
+var x = {{ pro.price }};
+var y = {{ qty }};
+var z = x * y;
+
+document.getElementById("t01").innerHTML = z;
+</script>
+
+    <tr>
+        <th>{{ pro.id }}</th>
+        <th>{{ pro.pro_name }}</th>
+        <th>{{ qty }}</th>
+        <th>{{ pro.price }}</th>
+        <th id="demo"></th>
+    </tr>
+</table>
+
+</body>
+</html>

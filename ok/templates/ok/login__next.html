@@ -1,0 +1,383 @@
+{% load staticfiles %}
+{% csrf_token %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<link rel="stylesheet" type="=text/css" href="{% static 'ok/style.css' %}"/>
+<!--<script type = "text/javascript" src={% static 'js/receipt.js'%}/> -->
+
+<!--<script type="text/javascript">
+$(document).ready(function (){ $("#add").click( function (event){
+    console.log("33")
+});
+});
+</script>
+-->
+<!--
+<script type="text/javascript">
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+            // Only send the token to relative URLs i.e. locally.
+            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        }
+    }
+});
+</script>
+-->
+<script type="text/javascript">
+$(document).ready(function (){ $("#add").click( function (event){
+     event.preventDefault();
+    var pro_id = $("#pro").val()
+    var qty = $("#qty").val()
+    $.ajax({
+                url: '{% url 'ok:login_next' %}',
+                method: 'POST',
+                data:JSON.stringify( [
+                    { pro : pro_id},
+                     { qty : qty} ] ),
+                contentType: "application/json",
+                dataType :"json",
+                success: function (res) {
+                     var dat = res['key']
+                    var json_data= JSON.parse(dat)
+                    console.log('success', res,json_data['name'])
+
+                    var app="<tr><th>"+json_data['id']+"</th><th>"+json_data['name']+"</th><th>"+json_data['qnty']+
+                        "</th><th>"+json_data['price']+"</th><th>" +json_data['price']+"</th></tr>\n"
+
+                    var table= document.getElementById("t01")
+                    var rowCount= table.rows.length
+                    var row= table.insertRow(rowCount)
+
+                    var cell1=row.insertCell(0)
+                    cell1.innerHTML=json_data['id']
+
+                    var cell2=row.insertCell(1)
+                    cell2.innerHTML=json_data['name']
+
+                    var cell3=row.insertCell(1)
+                    cell3.innerHTML=json_data['qnty']
+
+                    var cell4=row.insertCell(1)
+                    cell4.innerHTML=json_data['price']
+
+                    var cell5=row.insertCell(1)
+                    cell5.innerHTML=json_data['total']
+
+                    //document.getElementById("t01").append(app)
+                    },
+                error: function (err) {
+                    console.log("failure", err);
+                }
+            });
+});
+});
+</script>
+
+
+<head>
+  <title>ShopCop</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <style>
+body  {
+
+    background: #cccccc url("http://i68.tinypic.com/2pr8z0w.jpg") center;
+}
+div.relative {
+    position: relative;
+    left: 0px;
+
+}
+div.absolute {
+    position: absolute;
+    top: 38px;
+	left:0px;
+    right: 0;
+
+    height: 320px;
+    border: 3px solid white;
+    background-color:#C0C0C0;
+    color:black;
+    padding:0px;
+}
+div.absolute2 {
+    position: absolute;
+    top: 730px;
+	left:0px;
+    right: 0;
+
+    height: 100px;
+    border: 3px solid white;
+    background-color:#C0C0C0;
+    color:black;
+    padding:0px;
+}
+div.cosmic{
+	position: absolute;
+	background-color:#C0C0C0;
+	color:black;
+	top: 20px;
+	border: 1px solid #696969;
+	height:250px;
+	width:700px;
+	left:0px;
+	padding:15px;
+
+}
+div.cosmic2{
+	position: absolute;
+	background-color:#C0C0C0;
+	color:black;
+	top: 20px;
+
+	height:150px;
+
+	left:0px;
+	padding:15px;
+
+}
+
+input[type=button], input[type=submit], input[type=reset] {
+	border-radius: 12px;
+    background-color: white;
+    border:1px solid cyan;
+    color: black;
+    height: 24px;
+	width: 100px;
+    text-decoration: none;
+    margin: 6px 3px;
+    cursor: pointer;
+}
+textarea#styled {
+	position: absolute;
+	left: 700px;
+	width: 600px;
+	height: 120px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-position: bottom right;
+	background-repeat: no-repeat;
+}
+.button1 {
+	border-radius: 12px;
+	position: absolute;
+    background-color: white;
+    border:1px solid black;
+    color: black;
+	height:35px;
+	width:180px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 16px 8px;
+    cursor: pointer;
+}
+.button1:hover {
+    background-color: white; /* Green */
+    color: black;
+    border:2px solid blue;
+}
+.button2 {
+	border-radius: 12px;
+	position: absolute;
+    background-color: white;
+    border:1px solid black;
+    color: black;
+	height:50px;
+	width:150px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 16px 8px;
+    cursor: pointer;
+}
+.button2:hover {
+    background-color: white; /* Green */
+    color: black;
+    border:2px solid blue;
+}
+table {
+    width:100%;
+	border-collapse: collapse;
+}
+table, th, td {
+
+    border: 1px solid white;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+
+table#t01 th {
+    background-color: #DCDCDC;
+    color: black;
+}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="{% url 'ok:login' %}">ShOpCoP</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="ok/Receiptionist_Home.html">Home</a></li>
+    </ul>
+	    <form class="navbar-form navbar-left" action="/action_page.php">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search" name="search">
+        <div class="input-group-btn">
+          <button class="btn btn-default" type="submit">
+            <i class="glyphicon glyphicon-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+    <!-- <button class="btn btn-danger navbar-btn">Create Receipt</button> -->
+
+  </div>
+</nav>
+
+
+<div style="background-color:#ffffcc;color:black;padding:0px;height:350px;">
+ <div class="relative">
+<p>
+  <a href="https://www.w3schools.com/html/">File</a>
+	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+	<a href="https://www.w3schools.com/html/">Database</a>
+    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+      <a href="https://www.w3schools.com/html/">Transaction</a>
+	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+	<a href="https://www.w3schools.com/html/">Reports</a>
+   &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+	<a href="https://www.w3schools.com/html/">Help</a>
+</p>
+</div>
+
+<div class="absolute">
+	<!--<div class="cosmic">
+		<form action="/action_page.php">
+			Customer Acct#&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<input type="text" name="Customer Acct#" value="">
+				<input type="button" value="Find">
+				&nbsp&nbsp&nbsp
+				<input type="button" value="Add">
+				<br>
+				<br>
+			Name&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<input type="text" name="name" value="">
+				<br>
+				<br>
+			Acct#&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<input type="text" name="Acct#" value="">
+				<br>
+				<br>
+
+			Phone&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<input type="text" name="Phone" value="">
+				<br>
+				<br>
+
+			Email&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<input type="text" name="Acct#" value="">
+				<br>
+				<br>
+
+
+
+		</form>
+
+	</div> -->
+	<textarea style="overflow:hidden;position: absolute;color: red; background-color: black; left:750px; top:110px;width: 350px;height:90px;font-size: 20px;">
+
+			$0.00
+
+
+	</textarea>
+	<div class="cosmic2">
+
+	<br>
+	<form action="#" id="addRow-form" method="post" >
+    {% csrf_token %}
+	<strong>Prod ID</strong>&nbsp&nbsp&nbsp
+	<input id="pro" type="text" name="Product Id" value="">
+	<br>
+	<br>
+	<strong>Qty.</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+	<input id="qty" type="text" name="Quantity" value="" size="4">
+	<br>
+	<br>
+  <!--  <button id="add">Add Item</button>
+	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+-->
+    <input id="add" type="button" name="add" value="Add Item" style="width:200px; border-color: black">
+
+    </form>
+	</div>
+
+</div>
+
+
+</div>
+
+<table id="t01">
+  <tr>
+    <th>Item</th>
+    <th>Description</th>
+    <th>Qty</th>
+    <th>Price</th>
+    <th>Total</th>
+  </tr>
+
+</table>
+<div class="absolute2">
+	<input type="button1" class="button1" value="Find Item">
+	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+	<input type="button1" class="button1" value="New Item">
+	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+	<input type="button1" class="button1" value="Customer List">
+	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+	<input type="button1" class="button1" value="Discount">
+	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+	<input type="button1" class="button1" value="Clear Sell">
+	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+	<input type="button1" class="button1" value="Logout">
+	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+	<input type="button2" class="button2" value="Checkout">
+</div>
+</body>
+</html>
